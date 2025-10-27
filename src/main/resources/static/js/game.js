@@ -14,7 +14,7 @@
   
   // API配置
   const API_CONFIG = {
-    baseURL: 'http://localhost:8080/api/game',
+    baseURL: 'https://web-production-d61ef.up.railway.app/api/game',
     endpoints: {
       save: '/save'
     }

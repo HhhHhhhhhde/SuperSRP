@@ -2,7 +2,7 @@
 (function () {
   // API配置
   const API_CONFIG = {
-    baseURL: 'http://localhost:8080/api/game', // 后端API基础路径
+    baseURL: 'https://web-production-d61ef.up.railway.app/api/game', // 后端API基础路径
     endpoints: {
       history: '/history' // GET /api/game/history
     }
