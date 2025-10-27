@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
+  <defs>
+    <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6ea8fe"/>
+      <stop offset="100%" stop-color="#48d597"/>
+    </linearGradient>
+  </defs>
+  <!-- Icon part -->
+  <circle cx="20" cy="20" r="16" fill="url(#logoGrad)" opacity="0.2"/>
+  <g transform="translate(12, 12)">
+    <text x="0" y="12" font-size="14" font-weight="bold" fill="url(#logoGrad)">✂</text>
+  </g>
+  <g transform="translate(20, 20)">
+    <circle cx="0" cy="-8" r="2" fill="#6ea8fe"/>
+    <circle cx="7" cy="4" r="2" fill="#48d597"/>
+    <circle cx="-7" cy="4" r="2" fill="#ffc861"/>
+  </g>
+  <!-- Text part -->
+  <text x="45" y="17" font-size="14" font-weight="700" fill="#2563eb" font-family="'Noto Sans SC', sans-serif">超级</text>
+  <text x="45" y="32" font-size="11" font-weight="500" fill="#6b7280" font-family="'Noto Sans SC', sans-serif">石头剪刀布</text>
+</svg>
+

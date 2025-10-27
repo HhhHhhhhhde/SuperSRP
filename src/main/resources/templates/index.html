@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>超级石头剪刀布</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/game.css}" href="/css/game.css" />
+    <link rel="stylesheet" th:href="@{/css/auth-modal.css}" href="/css/auth-modal.css" />
+    <link rel="stylesheet" th:href="@{/css/guide-modal.css}" href="/css/guide-modal.css" />
+  </head>
+  <body>
+    <!-- 顶栏 -->
+    <nav class="topbar">
+      <div class="topbar__left">
+        <img th:src="@{/logo.svg}" src="/logo.svg" alt="Logo" class="topbar__logo" />
+      </div>
+      <div class="topbar__right">
+        <button class="topbar__btn" id="btn-guide">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+          </svg>
+          <span>游戏介绍</span>
+        </button>
+        <button class="topbar__btn" id="btn-history">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 3a5 5 0 1 0 0 10A5 5 0 0 0 8 3zM1.5 8a6.5 6.5 0 1 1 13 0 6.5 6.5 0 0 1-13 0z"/>
+            <path d="M8 4.5a.5.5 0 0 1 .5.5v3.5H11a.5.5 0 0 1 0 1H8a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5z"/>
+          </svg>
+          <span>历史对局</span>
+        </button>
+        <button class="topbar__btn topbar__btn--primary" id="btn-login">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+          </svg>
+          <span>登录</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+      <div class="sidebar__header">
+        <h3 class="sidebar__title">游戏模式</h3>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="#" class="sidebar__link sidebar__link--active" data-mode="pvp">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M7 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3.5 14a2.5 2.5 0 0 1 5 0V16h-5v-2zm6 0a2.5 2.5 0 0 1 5 0V16h-5v-2z"/>
+          </svg>
+          <span>玩家对战</span>
+        </a>
+        <a href="#" class="sidebar__link" data-mode="stage">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v13A1.5 1.5 0 0 0 3.5 18h13a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 16.5 2h-13zm5 4a.5.5 0 0 1 .5.5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 .5-.5z"/>
+          </svg>
+          <span>闯关模式</span>
+        </a>
+        <a href="#" class="sidebar__link" data-mode="ai">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm1 11H9v-2h2v2zm0-3H9V6h2v4z"/>
+            <circle cx="7" cy="8" r="1.5"/>
+            <circle cx="13" cy="8" r="1.5"/>
+          </svg>
+          <span>人机对战</span>
+        </a>
+      </nav>
+      <div class="sidebar__footer">
+        <button class="sidebar__toggle" id="sidebar-toggle" title="收起/展开侧边栏">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M5 8l5 5 5-5H5z"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+      <div class="page">
+        <header class="header">
+          <h1 class="title">玩家对战模式</h1>
+          <div class="subtitle">点击图例选择剪刀✂石头🪨布🩹，双方出手后自动判定</div>
+        </header>
+
+        <section class="toolbar" aria-label="操作栏">
+          <div class="controls">
+            <button class="btn" id="btn-new">新开一局</button>
+            <button class="btn" id="btn-random">随机选择</button>
+            <button class="btn btn--subtle" id="btn-clear">清空</button>
+            <button class="btn" id="btn-theme" aria-pressed="false" title="白天/黑夜">切换主题</button>
+          </div>
+          <div class="legend" role="note" aria-label="图例">
+            <span class="chip chip--player">玩家（白）</span>
+            <span class="chip chip--opponent">对方（深灰）</span>
+            <span class="chip">✂ 剪刀(P)</span>
+            <span class="chip">🪨 石头(R)</span>
+            <span class="chip">🩹 布(S)</span>
+            <span class="chip chip--stage">II 二阶段</span>
+          </div>
+        </section>
+
+        <main class="board" aria-label="对战与合并棋盘">
+          <div class="col col--pairs" aria-label="初始四组">
+            <div class="pair" id="pair-1" data-pair="1">
+              <div class="box box--player" data-side="player" data-emoji="">
+                <span class="box__emoji" aria-hidden="true">?</span>
+                <span class="box__label">玩家</span>
+              </div>
+              <div class="box box--opponent" data-side="opponent" data-emoji="">
+                <span class="box__emoji" aria-hidden="true">?</span>
+                <span class="box__label">对方</span>
+              </div>
+            </div>
+
+            <div class="pair" id="pair-2" data-pair="2">
+              <div class="box box--player" data-side="player" data-emoji="">
+                <span class="box__emoji" aria-hidden="true">?</span>
+                <span class="box__label">玩家</span>
+              </div>
+              <div class="box box--opponent" data-side="opponent" data-emoji="">
+                <span class="box__emoji" aria-hidden="true">?</span>
+                <span class="box__label">对方</span>
+              </div>
+            </div>
+
+            <div class="pair" id="pair-3" data-pair="3">
+              <div class="box box--player" data-side="player" data-emoji="">
+                <span class="box__emoji" aria-hidden="true">?</span>
+                <span class="box__label">玩家</span>
+              </div>
+              <div class="box box--opponent" data-side="opponent" data-emoji="">
+                <span class="box__emoji" aria-hidden="true">?</span>
+                <span class="box__label">对方</span>
+              </div>
+            </div>
+
+            <div class="pair" id="pair-4" data-pair="4">
+              <div class="box box--player" data-side="player" data-emoji="">
+                <span class="box__emoji" aria-hidden="true">?</span>
+                <span class="box__label">玩家</span>
+              </div>
+              <div class="box box--opponent" data-side="opponent" data-emoji="">
+                <span class="box__emoji" aria-hidden="true">?</span>
+                <span class="box__label">对方</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col col--semis" aria-label="二阶段">
+            <div class="stage" id="semi-1" data-stage="2">
+              <div class="box box--stage" data-side="stage">
+                <span class="box__emoji" aria-hidden="true">—</span>
+                <span class="box__label">二阶段</span>
+              </div>
+            </div>
+            <div class="stage" id="semi-2" data-stage="2">
+              <div class="box box--stage" data-side="stage">
+                <span class="box__emoji" aria-hidden="true">—</span>
+                <span class="box__label">二阶段</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col col--final" aria-label="最终胜者">
+            <div class="final" id="final">
+              <div class="box box--final" data-side="final">
+                <span class="box__emoji" aria-hidden="true">🏆</span>
+                <span class="box__label">最终</span>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <footer class="footer">
+          <small>可以按下S(石头)、P(布)、R(剪刀)键快速选择</small>
+          <br>
+          <small>当前模式：玩家对战 | 点击侧边栏切换其他模式</small>
+        </footer>
+      </div>
+    </div>
+
+    <script th:src="@{/js/auth.js}" src="/js/auth.js"></script>
+    <script th:src="@{/js/guide.js}" src="/js/guide.js"></script>
+    <script th:src="@{/js/game.js}" src="/js/game.js"></script>
+  </body>
+</html>

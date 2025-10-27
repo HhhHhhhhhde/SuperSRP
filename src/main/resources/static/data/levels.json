@@ -1,0 +1,63 @@
+{
+  "levels": [
+    {
+      "id": 1,
+      "name": "第1关",
+      "description": "初级挑战",
+      "initial": [
+        { "pair": 1, "player": "🪨", "opponent": "🩹" },
+        { "pair": 2, "player": "✂", "opponent": "🩹" },
+        { "pair": 3, "player": "🪨", "opponent": null },
+        { "pair": 4, "player": "🪨", "opponent": "✂" }
+      ],
+      "hints": [
+        { "stage": "semi", "box": 1, "side": "player", "emoji": "✂" },
+        { "stage": "semi", "box": 2, "side": "opponent", "emoji": null }
+      ],
+      "finalWinner": {
+        "side": "player",
+        "emoji": "✂"
+      },
+      "solution": [
+        { "pair": 1, "player": "🪨", "opponent": "🩹" },
+        { "pair": 2, "player": "✂", "opponent": "🩹" },
+        { "pair": 3, "player": "🪨", "opponent": "🩹" },
+        { "pair": 4, "player": "🪨", "opponent": "✂" }
+      ],
+      "solutionSemis": [
+        { "box": 1, "side": "player", "emoji": "✂" },
+        { "box": 2, "side": "opponent", "emoji": "🩹" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "第2关",
+      "description": "进阶挑战",
+      "initial": [
+        { "pair": 1, "player": null, "opponent": null },
+        { "pair": 2, "player": "✂", "opponent": null },
+        { "pair": 3, "player": null, "opponent": "🪨" },
+        { "pair": 4, "player": null, "opponent": null }
+      ],
+      "hints": [
+        { "stage": "semi", "box": 1, "side": "player", "emoji": "🪨" },
+        { "stage": "semi", "box": 2, "side": null, "emoji": null }
+      ],
+      "finalWinner": {
+        "side": "player",
+        "emoji": "🪨"
+      },
+      "solution": [
+        { "pair": 1, "player": "🪨", "opponent": "✂" },
+        { "pair": 2, "player": "✂", "opponent": "🩹" },
+        { "pair": 3, "player": "🩹", "opponent": "🪨" },
+        { "pair": 4, "player": "🩹", "opponent": "✂" }
+      ],
+      "solutionSemis": [
+        { "box": 1, "side": "player", "emoji": "🪨" },
+        { "box": 2, "side": "opponent", "emoji": "✂" }
+      ]
+    }
+  ]
+}
+

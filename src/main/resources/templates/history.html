@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>历史对局 - 超级石头剪刀布</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/game.css}" href="/css/game.css" />
+    <link rel="stylesheet" th:href="@{/css/auth-modal.css}" href="/css/auth-modal.css" />
+    <link rel="stylesheet" th:href="@{/css/history.css}" href="/css/history.css" />
+  </head>
+  <body>
+    <!-- 顶栏 -->
+    <nav class="topbar">
+      <div class="topbar__left">
+        <img th:src="@{/logo.svg}" src="/logo.svg" alt="Logo" class="topbar__logo" />
+      </div>
+      <div class="topbar__right">
+        <button class="topbar__btn" id="btn-back" onclick="window.location.href='/'">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg>
+          <span>返回首页</span>
+        </button>
+        <button class="topbar__btn topbar__btn--primary" id="btn-login">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+          </svg>
+          <span>登录</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="history-container">
+      <div class="history-page">
+        <header class="history-header">
+          <h1 class="history-title">历史对局</h1>
+          <p class="history-subtitle">查看你的游戏对战记录（不包括闯关模式）</p>
+        </header>
+
+        <!-- 筛选工具栏 -->
+        <section class="history-toolbar">
+          <div class="filter-group">
+            <label class="filter-label">游戏类型：</label>
+            <div class="filter-buttons">
+              <button class="filter-btn active" data-type="all">全部</button>
+              <button class="filter-btn" data-type="pvp">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M7 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
+                玩家对战
+              </button>
+              <button class="filter-btn" data-type="ai">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16z"/>
+                </svg>
+                人机对战
+              </button>
+            </div>
+          </div>
+          
+          <div class="filter-group">
+            <label class="filter-label">对局结果：</label>
+            <div class="filter-buttons">
+              <button class="result-btn active" data-result="all">全部</button>
+              <button class="result-btn result-btn--win" data-result="win">胜利</button>
+              <button class="result-btn result-btn--draw" data-result="draw">平局</button>
+              <button class="result-btn result-btn--lose" data-result="lose">失败</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 统计信息 -->
+        <section class="history-stats" id="history-stats">
+          <div class="stat-card">
+            <div class="stat-label">总对局数</div>
+            <div class="stat-value" id="stat-total">0</div>
+          </div>
+          <div class="stat-card stat-card--win">
+            <div class="stat-label">胜利</div>
+            <div class="stat-value" id="stat-wins">0</div>
+          </div>
+          <div class="stat-card stat-card--draw">
+            <div class="stat-label">平局</div>
+            <div class="stat-value" id="stat-draws">0</div>
+          </div>
+          <div class="stat-card stat-card--lose">
+            <div class="stat-label">失败</div>
+            <div class="stat-value" id="stat-losses">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">胜率</div>
+            <div class="stat-value" id="stat-winrate">0%</div>
+          </div>
+        </section>
+
+        <!-- 历史记录列表 -->
+        <section class="history-list" id="history-list">
+          <!-- Loading state -->
+          <div class="loading" id="loading-state">
+            <div class="loading-spinner"></div>
+            <p>加载中...</p>
+          </div>
+
+          <!-- Empty state -->
+          <div class="empty-state" id="empty-state" style="display: none;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            <h3>暂无历史对局</h3>
+            <p>开始游戏后，对局记录将显示在这里</p>
+            <button class="btn-primary" onclick="window.location.href='/'">开始游戏</button>
+          </div>
+
+          <!-- Login prompt -->
+          <div class="login-prompt" id="login-prompt" style="display: none;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <h3>请先登录</h3>
+            <p>登录后即可查看你的历史对局记录</p>
+            <button class="btn-primary" id="btn-login-prompt">立即登录</button>
+          </div>
+
+          <!-- History items container -->
+          <div class="history-items" id="history-items">
+            <!-- Dynamic content will be inserted here -->
+          </div>
+        </section>
+
+        <!-- 分页 -->
+        <section class="history-pagination" id="history-pagination" style="display: none;">
+          <button class="pagination-btn" id="btn-prev" disabled>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+            </svg>
+            上一页
+          </button>
+          <span class="pagination-info" id="pagination-info">第 1 页 / 共 1 页</span>
+          <button class="pagination-btn" id="btn-next" disabled>
+            下一页
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </button>
+        </section>
+      </div>
+    </div>
+
+    <!-- 局面详情弹窗 -->
+    <div class="game-detail-modal" id="game-detail-modal">
+      <div class="game-detail-modal__overlay"></div>
+      <div class="game-detail-modal__content">
+        <div class="game-detail-modal__header">
+          <h2 class="game-detail-modal__title">局面详情</h2>
+          <button class="game-detail-modal__close" id="close-detail-modal" aria-label="关闭">×</button>
+        </div>
+        <div class="game-detail-modal__body" id="detail-modal-body">
+          <!-- 动态内容将在这里插入 -->
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/js/auth.js}" src="/js/auth.js"></script>
+    <script th:src="@{/js/history.js}" src="/js/history.js"></script>
+  </body>
+</html>
+
