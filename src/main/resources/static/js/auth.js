@@ -5,7 +5,7 @@
 
   // API配置
   const API_CONFIG = {
-    baseURL: 'http://localhost:8080/api/auth', // 后端API基础路径（指向后端服务器）
+    baseURL: 'https://supersrp-production.up.railway.app/', // 后端API基础路径（指向后端服务器）
     endpoints: {
       login: '/login',      // POST /api/auth/login
       register: '/register', // POST /api/auth/register

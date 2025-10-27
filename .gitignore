@@ -10,6 +10,12 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
+# 编译输出
+*.class
+*.jar
+*.war
+*.ear
+
 # Eclipse
 .classpath
 .project
